@@ -1,3 +1,6 @@
 **/node_modules/
 
+sequelize-data.json
+sequelize-meta.json
+
 !.gitignore
