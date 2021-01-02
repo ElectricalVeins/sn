@@ -17,7 +17,7 @@ module.exports = {
         allowNull: false,
       },
       gender: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.ENUM('male', 'female'),
         allowNull: false,
       },
       birthday: {
@@ -26,7 +26,6 @@ module.exports = {
       },
       image_src: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,

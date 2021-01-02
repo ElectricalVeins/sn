@@ -12,7 +12,9 @@ const sequelizeConfig = config.use_env_variable
   ? [process.env[config.use_env_variable], config]
   : [config.database, config.username, config.password, config];
 
-const sequelize = new Sequelize(sequelizeConfig);
+console.log(sequelizeConfig);
+
+const sequelize = new Sequelize(...sequelizeConfig);
 
 fs.readdirSync(__dirname)
   .filter(
@@ -36,7 +38,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// sequelize.sync({ force: true });
+sequelize.sync();
 // console.log('All models were synchronized successfully.');
 
 module.exports = db;

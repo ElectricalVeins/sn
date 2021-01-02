@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       gender: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.ENUM('male', 'female'),
         allowNull: false,
       },
       birthday: {
