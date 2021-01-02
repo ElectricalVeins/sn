@@ -3,7 +3,8 @@ const bcrypt = require('bcrypt');
 const { SALT_ROUND } = require('../../constants');
 
 function createPass() {
-  return bcrypt.hashSync('password', SALT_ROUND);
+  const salt = bcrypt.genSaltSync(SALT_ROUND);
+  return bcrypt.hashSync('password', salt);
 }
 
 module.exports = {
@@ -20,6 +21,8 @@ module.exports = {
           phone: '380997774301',
           passwordHash: createPass(),
           user_role: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           first_name: 'Jane',
@@ -30,6 +33,8 @@ module.exports = {
           phone: '380995744311',
           passwordHash: createPass(),
           user_role: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
       {}

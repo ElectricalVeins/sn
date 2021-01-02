@@ -14,15 +14,15 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'User',
+          model: 'users',
           key: 'id',
         },
       },
       dialog_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Dialog',
-          key: 'message_id',
+          model: 'dialogs',
+          key: 'id',
         },
       },
       createdAt: {
