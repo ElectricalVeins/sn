@@ -4,9 +4,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Dialog extends Model {
     static associate(models) {
-      // Dialog.hasMany(models.Message);
-      Dialog.hasMany(models.Message);
-      Dialog.hasMany(models.Message); //hasMany ?
+      Dialog.hasMany(models.Message, {
+        foreignKey: 'dialog_id',
+      });
     }
   }
   Dialog.init(

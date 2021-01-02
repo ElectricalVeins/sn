@@ -5,10 +5,20 @@ const bcrypt = require('bcrypt');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.belongsTo(models.Role);
-      User.hasMany(models.Post);
+      User.belongsTo(models.Role, {
+        foreignKey: 'user_role',
+      });
+      User.hasMany(models.Post, {
+        foreignKey: 'user_id',
+      });
 
-      User.hasMany(models.Dialog);
+      User.hasMany(models.Dialog, {
+        foreignKey: 'id',
+      });
+
+      User.hasMany(models.Message, {
+        foreignKey: 'id',
+      });
     }
   }
   User.init(

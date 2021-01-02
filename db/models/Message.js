@@ -5,7 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Message extends Model {
     static associate(models) {
       // Message.belongsTo(models.Dialog);
-      Message.belongsTo(models.Dialog);
+      Message.belongsTo(models.Dialog, {
+        foreignKey: 'id',
+      });
+      Message.belongsTo(models.User, {
+        foreignKey: 'id',
+      });
     }
   }
   Message.init(
