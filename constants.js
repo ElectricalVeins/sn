@@ -1,3 +1,3 @@
-module.export = {
-  SALT_ROUNDS: 6,
+module.exports = {
+  MAX_SESSIONS_LIMIT: 3,
 };
