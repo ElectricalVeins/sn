@@ -1,3 +1,3 @@
 const _ = require('lodash');
 
-module.exports.prepareUser = async (user, ...pathsToOmit) => _.omit(user, ['password', ...pathsToOmit]);
+module.exports.prepareUser = (user, ...pathsToOmit) => _.omit(user.get(), ['password', ...pathsToOmit]);
