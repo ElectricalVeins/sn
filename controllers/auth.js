@@ -1,14 +1,15 @@
-const { User, RefreshToken } = require('../db/models');
+const UserQueries = require('../queries/user');
+const AuthQueries = require('../queries/auth');
 const AuthService = require('../services/authService');
 const JWTService = require('../services/jwtService');
 
 module.exports.signIn = async (req, res, next) => {
   try {
     const { body: { email, password } } = req;
-    const userInstance = await User.findOne({ where: { email } });
+    const user = await UserQueries.getByEmail(email);
 
-    if (userInstance && (await userInstance.isCorrectPassword(password))) {
-      const data = await AuthService.createSession(userInstance);
+    if (user && (await user.isCorrectPassword(password))) {
+      const data = await AuthService.createSession(user);
       res.status(201).send({ data });
       return;
     }
@@ -21,9 +22,9 @@ module.exports.signIn = async (req, res, next) => {
 module.exports.signUp = async (req, res, next) => {
   try {
     const { body } = req;
-    const userInstance = await User.create(body);
-    if (userInstance) {
-      const data = await AuthService.createSession(userInstance);
+    const user = await UserQueries.setNew(body);
+    if (user) {
+      const data = await AuthService.createSession(user);
       res.status(201).send({ data });
       return;
     }
@@ -36,14 +37,9 @@ module.exports.signUp = async (req, res, next) => {
 module.exports.updateRefreshToken = async (req, res, next) => {
   try {
     const { body: { refreshToken } } = req;
-    const refreshTokenInstance = await RefreshToken.findOne({
-      where: {
-        token: refreshToken,
-      },
-    });
-
-    if (refreshTokenInstance && JWTService.verifyRefreshToken(refreshToken)) {
-      const data = await AuthService.refreshSession(refreshTokenInstance);
+    const token = await AuthQueries.getByValue(refreshToken);
+    if (token && JWTService.verifyRefreshToken(refreshToken)) {
+      const data = await AuthService.refreshSession(token);
       res.send({
         data,
       });
