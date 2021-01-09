@@ -1,4 +1,3 @@
-'use strict';
 const bcrypt = require('bcrypt');
 const { SALT_ROUND } = require('../../constants');
 
@@ -37,7 +36,7 @@ module.exports = {
           updatedAt: new Date(),
         },
       ],
-      {}
+      {},
     );
   },
 

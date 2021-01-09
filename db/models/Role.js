@@ -1,4 +1,3 @@
-'use strict';
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -21,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'Role',
       tableName: 'roles',
       timestamps: false,
-    }
+    },
   );
   return Role;
 };

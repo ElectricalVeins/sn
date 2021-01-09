@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const UserController = require('../controllers/user');
+
 const usersRouter = Router();
 
 usersRouter.route('/').post(UserController.create).get(UserController.getMany);

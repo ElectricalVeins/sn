@@ -8,7 +8,7 @@ module.exports.create = async (req, res, next) => {
       delete user.passwordHash;
       return res.send({ data: user });
     }
-    throw new Error('400'); //Заглушка пока нет обработчика
+    throw new Error('400'); // Заглушка пока нет обработчика
   } catch (err) {
     next(err);
   }
@@ -43,7 +43,7 @@ module.exports.getById = async (req, res, next) => {
     if (user) {
       res.send({ data: user });
     }
-    throw new Error('400'); //Заглушка пока нет обработчика
+    throw new Error('400'); // Заглушка пока нет обработчика
   } catch (err) {
     next(err);
   }
@@ -64,7 +64,7 @@ module.exports.deleteById = async (req, res, next) => {
     if (user) {
       res.send({ data: user });
     }
-    throw new Error('400'); //Заглушка пока нет обработчика
+    throw new Error('400'); // Заглушка пока нет обработчика
   } catch (err) {
     next(err);
   }
