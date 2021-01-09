@@ -1,13 +1,19 @@
-const { User } = require('../db/models');
+const UserQueries = require('../queries/user');
+const UserService = require('../services/userService');
 
 module.exports.getMany = async (req, res, next) => {
   try {
-    const { count, rows } = await User.findAndCountAll();
-    res.send({
-      meta: { count },
-      data: rows,
-    });
-    return;
+    const { body: { limit, offset } } = req;
+    const { count, rows } = await UserQueries.getAndCountAll({ offset, limit });
+    if (count) {
+      const data = rows.map((user) => UserService.prepareUser(user, 'email', 'phone'));
+      res.send({
+        meta: { count },
+        data,
+      });
+      return;
+    }
+    throw new Error('something went wrong!');
   } catch (err) {
     next(err);
   }
@@ -18,9 +24,10 @@ module.exports.getById = async (req, res, next) => {
     query: { userId },
   } = req;
   try {
-    const user = await User.findByPk(userId);
+    const user = await UserQueries.getByPk(userId);
     if (user) {
-      res.send({ data: user });
+      const data = UserService.prepareUser(user, 'email', 'phone');
+      res.send({ data });
       return;
     }
     throw new Error('400'); // Заглушка пока нет обработчика
@@ -32,15 +39,9 @@ module.exports.getById = async (req, res, next) => {
 module.exports.deleteById = async (req, res, next) => {
   try {
     const {
-      query: { userId },
+      query: { userId: id },
     } = req;
-
-    const user = await User.destroy({
-      where: {
-        id: userId,
-      },
-      paranoid: true,
-    });
+    const user = await UserQueries.deleteById(id);
     if (user) {
       res.send({ data: user });
       return;
