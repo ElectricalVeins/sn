@@ -1,8 +1,9 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
+const config = require('../../app/config');
 
 const hashPasswordHook = async (user, options) => {
-  const hash = await bcrypt.hash(user.password, Number(process.env.SALT_ROUND) || 5);
+  const hash = await bcrypt.hash(user.password, Number(config.SALT_ROUND) || 5);
   // eslint-disable-next-line no-param-reassign
   user.password = hash;
 };
