@@ -2,15 +2,12 @@ const { User } = require('../db/models');
 
 module.exports.getMany = async (req, res, next) => {
   try {
-    const { count, rows } = await User.findAndCountAll({
-      attributes: {
-        exclude: ['passwordHash'],
-      },
-    });
+    const { count, rows } = await User.findAndCountAll();
     res.send({
       meta: { count },
       data: rows,
     });
+    return;
   } catch (err) {
     next(err);
   }
@@ -21,13 +18,10 @@ module.exports.getById = async (req, res, next) => {
     query: { userId },
   } = req;
   try {
-    const user = await User.findByPk(userId, {
-      attributes: {
-        exclude: ['passwordHash'],
-      },
-    });
+    const user = await User.findByPk(userId);
     if (user) {
       res.send({ data: user });
+      return;
     }
     throw new Error('400'); // Заглушка пока нет обработчика
   } catch (err) {
@@ -49,6 +43,7 @@ module.exports.deleteById = async (req, res, next) => {
     });
     if (user) {
       res.send({ data: user });
+      return;
     }
     throw new Error('400'); // Заглушка пока нет обработчика
   } catch (err) {
