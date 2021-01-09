@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const UserController = require('../controllers/user');
+const uploadImages = require('../middlewares/uploadImages');
 
 const usersRouter = Router();
 
@@ -11,5 +12,12 @@ usersRouter
   .get(UserController.getById)
   .patch()
   .delete(UserController.deleteById);
+
+usersRouter
+  .route('/:userId/image')
+  .post(
+    uploadImages.single('image'),
+    UserController.updateImage,
+  );
 
 module.exports = usersRouter;

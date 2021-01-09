@@ -51,3 +51,23 @@ module.exports.deleteById = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.updateImage = async (req, res, next) => {
+  try {
+    const {
+      params: { userId },
+      file: { filename },
+    } = req;
+    const user = await UserQueries.getById(userId);
+    if (user) {
+      const data = await user.update({
+        imageSrc: filename,
+      });
+      res.send({ data });
+      return;
+    }
+    throw new Error('404: User not found');
+  } catch (err) {
+    next(err);
+  }
+};

@@ -1,3 +1,5 @@
+const path = require('path');
+
 const { env } = process;
 
 module.exports = {
@@ -12,4 +14,5 @@ module.exports = {
     value: env.ACCESS_TOKEN_SECRET || 'secret 2',
     exp: env.ACCESS_TOKEN_EXP || '0.5h',
   },
+  STATIC_FILES_DEST: path.resolve(__dirname, '../uploads'),
 };
