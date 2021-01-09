@@ -4,6 +4,7 @@ services:
     build: .
     depends_on:
       - postgres
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
@@ -14,6 +15,7 @@ services:
       PORT: 3000
     ports:
       - '3000:3000'
+      - '9229:9229'
     command: npm run start-dev
     volumes:
       - .:/app/
@@ -23,6 +25,7 @@ services:
     image: postgres:12.2
     ports:
       - '35432:5432'
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass
