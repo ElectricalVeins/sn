@@ -1,7 +1,6 @@
 const path = require('path');
 
 const { env } = process;
-
 module.exports = {
   PORT: env.PORT || 3000,
   MAX_SESSIONS_LIMIT: 3,
@@ -15,4 +14,5 @@ module.exports = {
     exp: env.ACCESS_TOKEN_EXP || '0.5h',
   },
   STATIC_FILES_DEST: path.resolve(__dirname, '../uploads'),
+  STATIC_IMAGES_DIR: 'images/',
 };

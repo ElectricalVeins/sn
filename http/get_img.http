@@ -1,0 +1,1 @@
+GET http://localhost:3000/images/img.jpg HTTP/1.1

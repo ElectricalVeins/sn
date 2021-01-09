@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UserController = require('../controllers/user');
-const uploadImages = require('../middlewares/uploadImages');
+const { uploadSignleImage } = require('../middlewares/uploadImages');
 
 const usersRouter = Router();
 
@@ -16,7 +16,7 @@ usersRouter
 usersRouter
   .route('/:userId/image')
   .post(
-    uploadImages.single('image'),
+    uploadSignleImage,
     UserController.updateImage,
   );
 
