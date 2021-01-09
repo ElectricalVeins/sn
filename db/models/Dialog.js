@@ -4,17 +4,19 @@ module.exports = (sequelize, DataTypes) => {
   class Dialog extends Model {
     static associate(models) {
       Dialog.hasMany(models.Message, {
-        foreignKey: 'dialog_id',
+        foreignKey: 'dialogId',
       });
     }
   }
   Dialog.init(
     {
-      user_id: {
+      userId: {
+        field: 'user_id',
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      interlocutor_id: {
+      interlocutorId: {
+        field: 'interlocutor_id',
         type: DataTypes.INTEGER,
         allowNull: false,
       },

@@ -18,11 +18,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      user_id: {
+      userId: {
+        field: 'user_id',
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      dialog_id: {
+      dialogId: {
+        field: 'dialog_id',
         type: DataTypes.INTEGER,
         allowNull: false,
       },

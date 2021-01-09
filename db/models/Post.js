@@ -4,13 +4,14 @@ module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     static associate(models) {
       Post.belongsTo(models.User, {
-        foreignKey: 'user_id',
+        foreignKey: 'userId',
       });
     }
   }
   Post.init(
     {
-      user_id: {
+      userId: {
+        field: 'user_id',
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -18,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      image_src: {
+      imageSrc: {
+        field: 'image_src',
         type: DataTypes.STRING,
         allowNull: false,
       },

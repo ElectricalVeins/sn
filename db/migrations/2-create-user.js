@@ -36,7 +36,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      passwordHash: {
+      password_hash: {
         type: Sequelize.STRING,
         allowNull: false,
       },

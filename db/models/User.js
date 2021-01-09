@@ -3,30 +3,37 @@ const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate(models) {
-      User.belongsTo(models.Role, {
-        foreignKey: 'user_role',
+    static associate({
+      Role, Post, Dialog, Message, RefreshToken,
+    }) {
+      User.belongsTo(Role, {
+        foreignKey: 'userRole',
       });
-      User.hasMany(models.Post, {
-        foreignKey: 'user_id',
+      User.hasMany(Post, {
+        foreignKey: 'userId',
       });
 
-      User.hasMany(models.Dialog, {
+      User.hasMany(Dialog, {
         foreignKey: 'id',
       });
 
-      User.hasMany(models.Message, {
+      User.hasMany(Message, {
         foreignKey: 'id',
+      });
+      User.hasMany(RefreshToken, {
+        foreignKey: 'userId',
       });
     }
   }
   User.init(
     {
-      first_name: {
+      firstName: {
+        field: 'first_name',
         type: DataTypes.STRING,
         allowNull: false,
       },
-      last_name: {
+      lastName: {
+        field: 'last_name',
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -38,9 +45,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      image_src: {
+      imageSrc: {
+        field: 'image_src',
         type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -52,13 +59,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      passwordHash: {
+      password: {
+        field: 'password_hash',
         type: DataTypes.STRING,
         allowNull: false,
       },
-      user_role: {
+      userRole: {
+        field: 'user_role',
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 1, // user
       },
     },
     {
