@@ -3,4 +3,7 @@
 sequelize-data.json
 sequelize-meta.json
 
+.vscode
+.env
+
 !.gitignore
