@@ -1,11 +1,11 @@
 const JWTService = require('./jwtService');
 const { MAX_SESSIONS_LIMIT } = require('../constants');
 
-async function createSession(userInstance, payload = {}) {
-  const { accessToken, refreshToken } = await JWTService.createTokens(userInstance);
-  const count = await userInstance.countRefreshTokens();
+async function createSession(user, payload = {}) {
+  const { accessToken, refreshToken } = await JWTService.createTokens(user);
+  const count = await user.countRefreshTokens();
   if (count >= MAX_SESSIONS_LIMIT) {
-    const [oldestToken] = await userInstance.getRefreshTokens({
+    const [oldestToken] = await user.getRefreshTokens({
       order: [['updatedAt', 'ASC']],
     });
     await oldestToken.update({
@@ -13,13 +13,13 @@ async function createSession(userInstance, payload = {}) {
       ...payload,
     });
   } else {
-    await userInstance.createRefreshToken({
+    await user.createRefreshToken({
       token: refreshToken,
       ...payload,
     });
   }
   return {
-    user: userInstance,
+    user,
     tokenPair: {
       accessToken,
       refreshToken,
