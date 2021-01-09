@@ -1,3 +1,13 @@
-POST http://localhost:3000/api/users  HTTP/1.1
+POST http://localhost:3000/api/auth/sign-up  HTTP/1.1
 Content-Type: application/json
 
+{
+  "firstName":"Test",
+  "lastName":"Testovich",
+  "email":"mail540@main.net",
+  "password":"Test1234",
+  "gender":"male",
+  "birthday":"2000-01-09T15:55:07.693Z",
+  "phone":"380995675656",
+  "userRole":1
+}
