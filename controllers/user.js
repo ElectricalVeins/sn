@@ -1,19 +1,5 @@
 const { User } = require('../db/models');
 
-module.exports.create = async (req, res, next) => {
-  const { body } = req;
-  try {
-    const user = await User.create(body);
-    if (user) {
-      delete user.passwordHash;
-      return res.send({ data: user });
-    }
-    throw new Error('400'); // Заглушка пока нет обработчика
-  } catch (err) {
-    next(err);
-  }
-};
-
 module.exports.getMany = async (req, res, next) => {
   try {
     const { count, rows } = await User.findAndCountAll({

@@ -1,8 +1,18 @@
 const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
 
+const hashPasswordHook = async (user, options) => {
+  const hash = await bcrypt.hash(user.password, Number(process.env.SALT_ROUND) || 5);
+  // eslint-disable-next-line no-param-reassign
+  user.password = hash;
+};
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
+    async isCorrectPassword(v) {
+      return bcrypt.compare(v, this.getDataValue('password'));
+    }
+
     static associate({
       Role, Post, Dialog, Message, RefreshToken,
     }) {
@@ -75,6 +85,9 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'User',
       tableName: 'users',
+      hooks: {
+        beforeCreate: hashPasswordHook,
+      },
     },
   );
   return User;
