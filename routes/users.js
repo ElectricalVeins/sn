@@ -1,11 +1,12 @@
 const { Router } = require('express');
 const UserController = require('../controllers/user');
-const { uploadSignleImage } = require('../middlewares/uploadImages');
+const paginateMW = require('../middlewares/paginate');
+const { uploadSignInImage } = require('../middlewares/uploadImages');
 
 const usersRouter = Router();
 
 usersRouter.route('/')
-  .get(UserController.getMany);
+  .get(paginateMW, UserController.getMany);
 
 usersRouter
   .route('/:userId')
@@ -16,8 +17,8 @@ usersRouter
 usersRouter
   .route('/:userId/image')
   .post(
-    uploadSignleImage,
-    UserController.updateImage,
+    uploadSignInImage,
+    UserController.updateImage
   );
 
 module.exports = usersRouter;

@@ -9,7 +9,7 @@ module.exports.getMany = async (req, res, next) => {
       const data = rows.map((user) => UserService.prepareUser(user, 'email', 'phone'));
       res.send({
         meta: { count },
-        data,
+        data
       });
       return;
     }
@@ -21,7 +21,7 @@ module.exports.getMany = async (req, res, next) => {
 
 module.exports.getById = async (req, res, next) => {
   const {
-    query: { userId },
+    query: { userId }
   } = req;
   try {
     const user = await UserQueries.getByPk(userId);
@@ -39,7 +39,7 @@ module.exports.getById = async (req, res, next) => {
 module.exports.deleteById = async (req, res, next) => {
   try {
     const {
-      query: { userId: id },
+      query: { userId: id }
     } = req;
     const user = await UserQueries.deleteById(id);
     if (user) {
@@ -56,12 +56,12 @@ module.exports.updateImage = async (req, res, next) => {
   try {
     const {
       params: { userId },
-      file: { filename },
+      file: { filename }
     } = req;
     const user = await UserQueries.getById(userId);
     if (user) {
       const data = await user.update({
-        imageSrc: filename,
+        imageSrc: filename
       });
       res.send({ data });
       return;

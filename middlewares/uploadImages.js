@@ -26,6 +26,6 @@ function configureMulter() {
 }
 
 module.exports = {
-  uploadSignleImage: configureMulter().single('image'),
+  uploadSignInImage: configureMulter().single('image'),
   uploadCustom: configureMulter(),
 };

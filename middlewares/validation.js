@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved */
-const yup = require('yup');
 const { signInSchema, signUpSchema } = require('../validation');
 
 const validateBySchema = (schema) => async (req, res, next) => {
