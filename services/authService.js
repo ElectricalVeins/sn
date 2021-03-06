@@ -28,8 +28,8 @@ async function createSession(user, payload = {}) {
 }
 
 async function refreshSession(refreshTokenInstance) {
-  const userInstance = await refreshTokenInstance.getUser();
-  const { accessToken, refreshToken } = await JWTService.createTokens();
+  const userInstance = await refreshTokenInstance.getUser(); // getUser ??
+  const { accessToken, refreshToken } = await JWTService.createTokens(userInstance);
   await refreshTokenInstance.update({
     token: refreshToken,
   });

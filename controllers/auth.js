@@ -47,7 +47,9 @@ module.exports.signUp = async (req, res, next) => {
 module.exports.updateRefreshToken = async (req, res, next) => {
   try {
     const { body: { refreshToken } } = req;
+
     const token = await AuthQueries.getByValue(refreshToken);
+
     if (token && JWTService.verifyRefreshToken(refreshToken)) {
       const data = await AuthService.refreshSession(token);
       res.send(data);
@@ -58,3 +60,16 @@ module.exports.updateRefreshToken = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.authenticate = async (req, res, next) => {
+  try {
+    const { body: { accessToken } } = req;
+
+    const userData = await JWTService.verifyAccessToken(accessToken);
+    const user = await UserQueries.getById(userData.id);
+    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
+    res.status(200).send(preparedUser);
+  } catch (error) {
+    next(new Error('No auth'));
+  }
+}

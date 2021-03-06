@@ -13,6 +13,9 @@ app.use('/api', router);
 /* Bad Error Handler */
 app.use((err, req, res, next) => {
   console.log('ERROR HANDLER =>', err);
+  if (err.message === 'No auth') {
+    return res.status(401).send(err);
+  }
   return res.status(500).send(err);
 });
 

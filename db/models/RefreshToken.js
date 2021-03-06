@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class RefreshToken extends Model {
     static associate({ User }) {
       RefreshToken.belongsTo(User, {
-        foreignKey: 'id',
+        foreignKey: 'userId',
       });
     }
   }
