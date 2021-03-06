@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const UserQueries = require('../queries/user');
 const AuthQueries = require('../queries/auth');
 const AuthService = require('../services/authService');
@@ -7,10 +8,14 @@ module.exports.signIn = async (req, res, next) => {
   try {
     const { body: { email, password } } = req;
     const user = await UserQueries.getByEmail(email);
+    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
 
     if (user && (await user.isCorrectPassword(password))) {
-      const data = await AuthService.createSession(user);
-      res.status(201).send(data);
+      const { tokenPair } = await AuthService.createSession(user);
+      res.status(201).send({
+        user: preparedUser,
+        tokenPair,
+      });
       return;
     }
     throw new Error('401: Auth failed');
@@ -23,9 +28,14 @@ module.exports.signUp = async (req, res, next) => {
   try {
     const { body } = req;
     const user = await UserQueries.setNew(body);
+    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
+
     if (user) {
-      const data = await AuthService.createSession(user);
-      res.status(201).send(data);
+      const { tokenPair } = await AuthService.createSession(user);
+      res.status(201).send({
+        user: preparedUser,
+        tokenPair,
+      });
       return;
     }
     throw new Error('401: Auth failed');
