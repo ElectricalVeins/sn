@@ -9,7 +9,7 @@ module.exports.getMany = async (req, res, next) => {
       const data = rows.map((user) => UserService.prepareUser(user, 'email', 'phone'));
       res.send({
         meta: { count },
-        data
+        users: data,
       });
       return;
     }
@@ -27,7 +27,7 @@ module.exports.getById = async (req, res, next) => {
     const user = await UserQueries.getByPk(userId);
     if (user) {
       const data = UserService.prepareUser(user, 'email', 'phone');
-      res.send({ data });
+      res.send(data);
       return;
     }
     throw new Error('400'); // Заглушка пока нет обработчика
@@ -43,7 +43,7 @@ module.exports.deleteById = async (req, res, next) => {
     } = req;
     const user = await UserQueries.deleteById(id);
     if (user) {
-      res.send({ data: user });
+      res.send(user);
       return;
     }
     throw new Error('400'); // Заглушка пока нет обработчика
@@ -63,7 +63,7 @@ module.exports.updateImage = async (req, res, next) => {
       const data = await user.update({
         imageSrc: filename
       });
-      res.send({ data });
+      res.send(data);
       return;
     }
     throw new Error('404: User not found');
