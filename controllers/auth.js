@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const UserQueries = require('../queries/user');
 const AuthQueries = require('../queries/auth');
+const UserService = require('../services/userService');
 const AuthService = require('../services/authService');
 const JWTService = require('../services/jwtService');
 
@@ -8,7 +9,7 @@ module.exports.signIn = async (req, res, next) => {
   try {
     const { body: { email, password } } = req;
     const user = await UserQueries.getByEmail(email);
-    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
+    const preparedUser = UserService.prepareUser(user, 'userRole');
 
     if (user && (await user.isCorrectPassword(password))) {
       const { tokenPair } = await AuthService.createSession(user);
@@ -28,7 +29,7 @@ module.exports.signUp = async (req, res, next) => {
   try {
     const { body } = req;
     const user = await UserQueries.setNew(body);
-    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
+    const preparedUser = UserService.prepareUser(user, 'userRole');
 
     if (user) {
       const { tokenPair } = await AuthService.createSession(user);
@@ -67,9 +68,9 @@ module.exports.authenticate = async (req, res, next) => {
 
     const userData = await JWTService.verifyAccessToken(accessToken);
     const user = await UserQueries.getById(userData.id);
-    const preparedUser = _.omit(user.get(), ['password', 'userRole']); // TODO: _.pick
+    const preparedUser = UserService.prepareUser(user, 'userRole');
     res.status(200).send(preparedUser);
   } catch (error) {
-    next(new Error('No auth'));
+    next(error);
   }
-}
+};

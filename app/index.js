@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./router');
 const { STATIC_FILES_DEST } = require('./config');
+const errorHandlers = require('../middlewares/errorHandler');
 
 const app = express();
 
@@ -10,13 +11,15 @@ app.use(express.json());
 app.use(express.static(STATIC_FILES_DEST));
 app.use('/api', router);
 
-/* Bad Error Handler */
+/* Bad Error Handlers */
+app.use(errorHandlers.handleValidationError);
+app.use(errorHandlers.handleSequelizeError);
+app.use(errorHandlers.handleAuthError);
+app.use(errorHandlers.handleApplicationError);
+
 app.use((err, req, res, next) => {
   console.log('ERROR HANDLER =>', err);
-  if (err.message === 'No auth') {
-    return res.status(401).send(err);
-  }
-  return res.status(500).send(err);
+  return res.status(500).send(err.message);
 });
 
 module.exports = app;
