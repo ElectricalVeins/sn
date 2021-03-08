@@ -1,6 +1,6 @@
 const path = require('path');
 
-const commonPath = path.resolve('./', 'db');
+const commonPath = path.resolve('.', 'src', 'db');
 
 module.exports = {
   config: path.resolve(commonPath, 'config', 'config.js'),
