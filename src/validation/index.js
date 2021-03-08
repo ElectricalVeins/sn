@@ -21,7 +21,11 @@ const emailSchema = yup
 
 module.exports.signInSchema = yup.object().shape({
   email: emailSchema,
-  password: passwordSchema,
+  password: yup
+    .string()
+    .min(8)
+    .max(32)
+    .required(),
 });
 
 module.exports.signUpSchema = yup.object().shape({
