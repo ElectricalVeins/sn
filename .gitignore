@@ -1,10 +1,11 @@
 **/node_modules/
 **/uploads/
 
-sequelize-data.json
-sequelize-meta.json
+sequelize-*.json
 
-.vscode
+*.sql
+
+.vscode/
 .env
 
 !.gitignore

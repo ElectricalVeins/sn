@@ -1,5 +1,5 @@
 const { TokenExpiredError, JsonWebTokenError } = require('jsonwebtoken');
-const Sequelize = require('sequelize');
+const { ValidationError: SequelizeValidationError } = require('sequelize');
 const { ValidationError } = require('yup');
 const { ApplicationError } = require('../utils/Errors');
 
@@ -14,7 +14,7 @@ module.exports.handleValidationError = (err, req, res, next) => {
 };
 
 module.exports.handleSequelizeError = (err, req, res, next) => {
-  if (err instanceof Sequelize.ValidationError) {
+  if (err instanceof SequelizeValidationError) {
     const {
       errors: [{ value, message }],
     } = err;
